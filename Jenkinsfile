@@ -1,37 +1,22 @@
 pipeline {
     agent any
 
+    environment {
+        // This safely binds your Jenkins secret string to a local variable name
+        DB_PASSWORD = credentials('my-database-token')
+    }
+
     stages {
-        stage('Compile & Package') {
+        stage('Connect to Database') {
             steps {
-                echo 'Compiling source code...'
-                echo 'Packaging application artifact...'
+                echo 'Initializing environment connections...'
+                // Jenkins will automatically mask the secret text in logs!
+                echo "Attempting database login using authentication key: ${DB_PASSWORD}"
             }
         }
-
-        // Both of these test modules will execute at the exact same time
-        stage('Run Parallel Automation Suites') {
-            parallel {
-                stage('Browser UI Tests') {
-                    steps {
-                        echo 'Starting Chrome and Firefox automation test suites...'
-                        sleep time: 5, unit: 'SECONDS'
-                        echo 'UI testing finished successfully!'
-                    }
-                }
-                stage('Backend API Tests') {
-                    steps {
-                        echo 'Sending parallel integration payloads to API endpoints...'
-                        sleep time: 3, unit: 'SECONDS'
-                        echo 'API validation finished successfully!'
-                    }
-                }
-            }
-        }
-
-        stage('Deploy Production') {
+        stage('Database Operations') {
             steps {
-                echo '🎉 Deployment complete! Application is live.'
+                echo 'Successfully authenticated! Executing migration scripts...'
             }
         }
     }
