@@ -10,6 +10,10 @@ pipeline {
         stage('Running Automated Tests') {
             steps {
                 echo 'Running unit tests... All checks passed!'
+            steps {
+                echo "hello wellcome to jenkins!"
+            }
+                
             }
         }
     }
