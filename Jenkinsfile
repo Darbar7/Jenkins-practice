@@ -1,21 +1,28 @@
 pipeline {
     agent any
-    
-    environment {
-        APP_VERSION = '1.0.0'
-        ENV_TARGET  = 'Staging'
-    }
 
     stages {
-        stage('Build Phase') {
+        stage('Build & Test') {
             steps {
-                echo "Compiling application version ${env.APP_VERSION}..."
+                echo 'Compiling code and running unit tests...'
+                // Simulating a code failure caught during testing
+                error "CRITICAL ERROR: Automated unit tests failed! Code has bugs."
             }
         }
-        stage('Verification Phase') {
+        stage('Deploy Phase') {
             steps {
-                echo "Deploying version ${env.APP_VERSION} straight to the ${env.ENV_TARGET} server."
+                echo 'This line will never be reached because the build failed above.'
             }
+        }
+    }
+
+    // This section runs automatically after the stages finish
+    post {
+        always {
+            echo 'Pipeline has finished running. Cleaning up workspace directories...'
+        }
+        failure {
+            echo '🚨 ALERT: The pipeline failed! Sending emergency notification to developers.'
         }
     }
 }
