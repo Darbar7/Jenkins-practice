@@ -5,24 +5,22 @@ pipeline {
         stage('Build & Test') {
             steps {
                 echo 'Compiling code and running unit tests...'
-                // Simulating a code failure caught during testing
-                error "CRITICAL ERROR: Automated unit tests failed! Code has bugs."
+                echo 'All tests passed cleanly this time!'
             }
         }
         stage('Deploy Phase') {
             steps {
-                echo 'This line will never be reached because the build failed above.'
+                echo 'Deploying application safely to production!'
             }
         }
     }
 
-    // This section runs automatically after the stages finish
     post {
         always {
             echo 'Pipeline has finished running. Cleaning up workspace directories...'
         }
-        failure {
-            echo '🚨 ALERT: The pipeline failed! Sending emergency notification to developers.'
+        success {
+            echo '🎉 SUCCESS: The pipeline recovered! Everything is green and deployed.'
         }
     }
 }
