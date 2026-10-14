@@ -1,17 +1,20 @@
 pipeline {
     agent any
+    
+    environment {
+        APP_VERSION = '1.0.0'
+        ENV_TARGET  = 'Staging'
+    }
 
     stages {
-        stage('Pulling from GitHub') {
+        stage('Build Phase') {
             steps {
-                echo 'Success! Jenkins successfully pulled this code from GitHub!'
+                echo "Compiling application version ${env.APP_VERSION}..."
             }
         }
-        stage('Running Automated Tests') {
+        stage('Verification Phase') {
             steps {
-                echo 'Running unit tests... All checks passed!'
-        
-                
+                echo "Deploying version ${env.APP_VERSION} straight to the ${env.ENV_TARGET} server."
             }
         }
     }
